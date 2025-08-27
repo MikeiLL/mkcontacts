@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Brooklyn Bagels - {% block title %}Inventory Monitor{% endblock %}</title>
+    <title>Mike Kilmer - {% block title %}Contacts{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block stylesheets %}
     <!-- Different styles for admin, for visibility -->
@@ -25,13 +25,6 @@
             <div class="branding">
                 <a href="/contacts">CONTACTS HOME</a>
             </div>
-            <nav>
-                <ul>
-                    {% if user.user_level == 3 %}
-                    <li><a href="/edit">Edit Items</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
         </div>
         <div class="user">
             {% if user.displayname %}
