@@ -1,3 +1,5 @@
 lib
 venv
 include
+config.py
+__pycache__
