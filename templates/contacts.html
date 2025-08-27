@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block title %}Edit Items{% endblock %}
+
+
+{% block load_scripts %}
+
+<style>
+
+</style>
+{% endblock %}
+
+{% block main %}
+{% if not contacts %}
+<h1>You have no contacts. Add some. </h1>
+{% else %}
+<table>
+    {% for contact in contacts %}
+    <tr>
+        <th>{{ contact['name'] }}</th>
+        <td>coming</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

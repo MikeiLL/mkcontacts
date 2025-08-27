@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+{% block head %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Brooklyn Bagels - {% block title %}Inventory Monitor{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block stylesheets %}
+    <!-- Different styles for admin, for visibility -->
+    <link href='/static/styles.css' rel='stylesheet' type='text/css'>
+    {% endblock %}
+    <meta charset="UTF-8">
+    <link rel="manifest" href="/static/images/manifest.json" />
+    <link rel="icon" href="/static/images/favicon.ico" />
+    {% block load_scripts %}
+    {% endblock %}
+</head>
+{% endblock %}
+
+<body>
+    <header role="banner">
+        <div id="branding_nav">
+            <div class="branding">
+                <a href="/contacts">CONTACTS HOME</a>
+            </div>
+            <nav>
+                <ul>
+                    {% if user.user_level == 3 %}
+                    <li><a href="/edit">Edit Items</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <div class="user">
+            {% if user.displayname %}
+            Logged in as {{ user.displayname }} <a class="btn" href="/logout">Logout</a>
+            {% else %}
+            Not logged in
+            {% endif %}
+        </div>
+    </header>
+    <br style="clear:both" />
+    {% block main %}
+    <main>
+        <section id="pattern" class="pattern">
+            A section of the screen
+        </section>
+    </main>
+    {% endblock %}
+    {% block footer %}
+    <footer>
+        <h3>Contacts</h3>
+    </footer>
+    {% endblock %}
+    </div>
+
+</body>
+
+</html>
