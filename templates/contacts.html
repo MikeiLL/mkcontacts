@@ -4,25 +4,24 @@
 
 
 {% block load_scripts %}
+<script>
+    let ws_type = "mkcontacts";
+    let ws_code = window.location.origin + "/static/" + "{{ cache_bust('main.js') }}";
+    let ws_sync = null;
+    // source: https://sikorsky.rosuav.com/static/ws_sync.js
+    // version controlled source: https://raw.githubusercontent.com/Rosuav/StilleBot/master/httpstatic/ws_sync.js
+    import(window.location.origin + "/static/" + "{{ cache_bust('ws_sync.js') }}").then(m => ws_sync = m);
+</script>
 
+<script>
+    const user_level = {{current_user.user_level | tojson | safe }}
+    const ws_group = {{ws_group | tojson | safe }}
+</script>
 <style>
 
 </style>
 {% endblock %}
 
 {% block main %}
-{% if not contacts %}
-<h1>You have no contacts. Add some. </h1>
-{% else %}
-<table border=1>
-    {% for contact in contacts %}
-    <tr>
-        <th>{{ contact.fullname }}</th>
-        <td>{{ contact.email }}</td>
-        <td>{{ contact.phone }}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% endif %}
-
+<main></main>
 {% endblock %}
