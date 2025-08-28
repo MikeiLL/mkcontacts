@@ -91,8 +91,18 @@ def contacts():
         state['contacts'] = [dict(c) for c in cur.fetchall()],
     return render_template("contacts.html", state=state, user=current_user, ws_group=ws_group)
 
-@app.route('/x', methods=['POST'])
-def x():
+@app.route('/newcontact', methods=['POST'])
+def newcontact():
+    json = request.json
+    #if not json['name'] in ['fullname','email', 'phone']: return
+    # for now ignore other values
+    # TODO maybe sanitize https://pathvalidate.readthedocs.io is one way
+    #we don't want to create multiple contacts for each field
+    #probably want to create the contact no matter which field received
+    #first. also how do you deal with overlapping requests?
+    #the cheap way is to just use a submit button. Let's
+    #start with that.
+    print("Received a request {0}".format(json))
     update_sockets("mkcontacts")
     return jsonify({'xxx': "xxx"})
 

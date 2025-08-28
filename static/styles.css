@@ -109,27 +109,6 @@ button {
     color: var(--brand-secondary-dark);
 }
 
-.requests {
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 1.4em;
-    justify-content: space-between;
-}
-
-.requests select {
-    padding: 0.1em;
-    font-size: 0.8em;
-    text-transform: capitalize;
-}
-
-.requests fieldset {
-    display: flex;
-    flex-direction: column;
-    min-width: 200px;
-    gap: 0.6em;
-    margin: 0.8em none;
-}
-
 #simpleconfirmdlg {
     min-width: 500px;
 }
@@ -147,7 +126,9 @@ button {
     padding: 0.5em;
 }
 
-.requesteditem {
-    display: flex;
-    gap: 0.5em;
+/* TABLES */
+table,
+th,
+td {
+    border: 1px solid grey;
 }
