@@ -14,10 +14,12 @@
 {% if not contacts %}
 <h1>You have no contacts. Add some. </h1>
 {% else %}
-<table>
+<table border=1>
     {% for contact in contacts %}
     <tr>
-        <th>{{ contact }}</th>
+        <th>{{ contact.fullname }}</th>
+        <td>{{ contact.email }}</td>
+        <td>{{ contact.phone }}</td>
     </tr>
     {% endfor %}
 </table>

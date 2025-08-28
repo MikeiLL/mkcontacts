@@ -57,8 +57,7 @@ def contacts():
     with _conn, _conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute("SELECT id, fullname, email, phone FROM contacts ORDER BY fullname")
         contacts=cur.fetchall()
-        print("contacts", contacts)
-    return render_template("contacts.html", user=current_user, contacts=contacts)
+    return render_template("contacts.html", user=current_user, contacts=[dict(c) for c in contacts])
 
 if __name__ == '__main__':
     app.debug = True
