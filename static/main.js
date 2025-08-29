@@ -28,21 +28,22 @@ export function render(state) {
         ])))), // end form
     ]);
 }
-on("submit", "#btnnew", async (e) => {
+on("click", "#btnnew", async (e) => {
     e.preventDefault();
+    const contactForm = e.match.closest("#newcontact");
     fetch("/newcontact", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            form: JSON.stringify(Object.fromEntries(new FormData(e.match.closest("#newcontact"))))
+            form: JSON.stringify(Object.fromEntries(new FormData(contactForm)))
         }),
     })
+    contactForm.reset();
 });
 
 on("click", ".delete", simpleconfirm("Delete contact?", async (e) => {
-    console.log(e.match.dataset.id);
     e.preventDefault();
     fetch("/deletecontact", {
         method: "POST",

@@ -205,7 +205,7 @@ if __name__ == '__main__':
     sys.argv = cmd.split(" ")[1:] # TODO: Split more smartly
     from gunicorn.app.wsgiapp import run; run()
     # # If we're running with gunicorn, we need to start the websocket server
-    # # So swap comment on following block with the next one
+    # # So swap comment on previous block with the next one
 
     # import logging
     # logging.basicConfig(level=logging.INFO)
