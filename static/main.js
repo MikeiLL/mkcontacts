@@ -12,7 +12,7 @@ export function render(state) {
     replace_content("main", [
         FORM({id: "newcontact"}, (
         TABLE(TBODY([
-            state.contacts.map((c, idx) => TR([TH(idx + ". " + c.fullname), TD(c.email), TD(c.phone), TD("x")])),
+            state.contacts.map((c, idx) => TR({'data-id': c.id},[TH(idx + ". " + c.fullname), TD(c.email), TD(c.phone), TD("x")])),
             TR([
                 TH([
                     LABEL([SPAN("fullname"), INPUT({type: "text", name: "fullname"})])

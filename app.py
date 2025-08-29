@@ -82,9 +82,9 @@ def contacts():
     if not (current_user and hasattr(current_user, 'user_level')):
         return redirect("/")
     if current_user.user_level == 3:
-        ws_group = "factory"
+        ws_group = "mkcontacts"
     else:
-        ws_group = "store" + str(current_user.store_id)
+        ws_group = "guest"# + str(current_user)
     state={}
     with _conn, _conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute("SELECT id, fullname, email, phone FROM contacts ORDER BY fullname")
@@ -93,7 +93,10 @@ def contacts():
 
 @app.route('/newcontact', methods=['POST'])
 def newcontact():
-    json = request.json
+    if (current_user.user_level != 3):
+        return "Unauthorized", 401
+    data = request.json
+    contact = json.loads(data['form'])
     #if not json['name'] in ['fullname','email', 'phone']: return
     # for now ignore other values
     # TODO maybe sanitize https://pathvalidate.readthedocs.io is one way
@@ -102,9 +105,16 @@ def newcontact():
     #first. also how do you deal with overlapping requests?
     #the cheap way is to just use a submit button. Let's
     #start with that.
-    print("Received a request {0}".format(json))
+    state = {}
+    with _conn, _conn.cursor() as cur:
+        cur.execute("""INSERT INTO contacts (fullname, email, phone)
+        VALUES (%s, %s, %s) RETURNING id""", (contact['fullname'], contact['email'], contact['phone']))
+        state['item_id'] = cur.fetchone()[0]
+    with _conn, _conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+        cur.execute("SELECT id, fullname, email, phone FROM contacts ORDER BY fullname")
+        state['contacts'] = cur.fetchall()
     update_sockets("mkcontacts")
-    return jsonify({'xxx': "xxx"})
+    return jsonify(state)
 
 def get_state(group):
     state = {}
@@ -182,4 +192,4 @@ if __name__ == '__main__':
     from gunicorn.app.wsgiapp import run; run()
 
     # Test mode, when not running with gunicorn
-    # app.run(debug=True)
+    app.run(debug=True, port=8900)
