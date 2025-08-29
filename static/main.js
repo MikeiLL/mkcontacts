@@ -13,22 +13,22 @@ export function render(state) {
         FORM({id: "newcontact"}, (
         TABLE(TBODY([
             state.contacts.map((c, idx) => TR({'data-idx': idx}, [
-                TH(idx + ". " + c.fullname), TD(c.email), TD(c.phone), TD(BUTTON({class: "delete",},"x"))
+                TH(idx + ". " + c.fullname), TD(c.email), TD(c.phone), TD(BUTTON({'data-id': c.id, type: "button", class: "delete",},"x"))
             ])),
             TR([
                 TH([
-                    LABEL([SPAN("fullname"), INPUT({type: "text", name: "fullname"})])
+                    LABEL([SPAN("fullname"), INPUT({type: "text", name: "fullname", autocomplete: "off"})])
                 ]), TD(
-                    LABEL([SPAN("email"), INPUT({type: "text", name: "email"})])
+                    LABEL([SPAN("email"), INPUT({type: "text", name: "email", autocomplete: "off", type: "email"})])
                 ), TD(
-                    LABEL([SPAN("phone"), INPUT({type: "text", name: "phone"})])
+                    LABEL([SPAN("phone"), INPUT({type: "text", name: "phone", autocomplete: "off"})])
                 ), TD(
-                    BUTTON({type: "submit"}, "new")
+                    BUTTON({id: "btnnew", type: "submit"}, "new")
                 )])
         ])))), // end form
     ]);
 }
-on("submit", "#newcontact", async (e) => {
+on("submit", "#btnnew", async (e) => {
     e.preventDefault();
     fetch("/newcontact", {
         method: "POST",
@@ -36,7 +36,21 @@ on("submit", "#newcontact", async (e) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            form: JSON.stringify(Object.fromEntries(new FormData(e.match)))
+            form: JSON.stringify(Object.fromEntries(new FormData(e.match.closest("#newcontact"))))
         }),
     })
 });
+
+on("click", ".delete", simpleconfirm("Delete contact?", async (e) => {
+    console.log(e.match.dataset.id);
+    e.preventDefault();
+    fetch("/deletecontact", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            id: e.match.dataset.id
+        }),
+    })
+}))

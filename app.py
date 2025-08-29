@@ -91,6 +91,22 @@ def contacts():
         state['contacts'] = [dict(c) for c in cur.fetchall()],
     return render_template("contacts.html", state=state, user=current_user, ws_group=ws_group)
 
+
+@app.route('/deletecontact', methods=['POST'])
+def deletecontact():
+    if (current_user.user_level != 3):
+        return "Unauthorized", 401
+    data = request.json
+    state = {}
+    print("data is {0} and id is {1}".format(data, data['id']))
+    with _conn, _conn.cursor() as cur:
+        cur.execute("DELETE FROM contacts WHERE id = %s", (data['id'],))
+    with _conn, _conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+        cur.execute("SELECT id, fullname, email, phone FROM contacts ORDER BY fullname")
+        state['contacts'] = cur.fetchall()
+    update_sockets("mkcontacts")
+    return jsonify(state)
+
 @app.route('/newcontact', methods=['POST'])
 def newcontact():
     if (current_user.user_level != 3):
