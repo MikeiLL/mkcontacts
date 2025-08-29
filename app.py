@@ -179,10 +179,8 @@ def websocket(ws):
     finally:
         if group is not None:
             ws_groups[group].remove(ws)
-if __name__ == '__main__':
-    # # If we're running with gunicorn, we need to start the websocket server
-    # # So swap comment on following block with the next one
 
+if __name__ == '__main__':
     import logging
     logging.basicConfig(level=logging.INFO)
     # Load us up using gunicorn, configured via the Procfile
@@ -190,6 +188,19 @@ if __name__ == '__main__':
     if "PORT" not in os.environ: os.environ["PORT"] = "8900" # hack - pick a different default port
     sys.argv = cmd.split(" ")[1:] # TODO: Split more smartly
     from gunicorn.app.wsgiapp import run; run()
+    # # If we're running with gunicorn, we need to start the websocket server
+    # # So swap comment on following block with the next one
+
+    # import logging
+    # logging.basicConfig(level=logging.INFO)
+    # # Load us up using gunicorn, configured via the Procfile
+    # with open("Procfile") as f: cmd = f.read().strip().replace("web: ", "")
+    # if "PORT" not in os.environ: os.environ["PORT"] = "5000" # hack - pick a different default port
+    # sys.argv = cmd.split(" ")[1:] # TODO: Split more smartly
+    # from gunicorn.app.wsgiapp import run; run()
 
     # Test mode, when not running with gunicorn
+    # app.run(debug=True)
     app.run(debug=True, port=8900)
+    # # If we're running with gunicorn, we need to start the websocket server
+    # # So swap comment on following block with the next one
