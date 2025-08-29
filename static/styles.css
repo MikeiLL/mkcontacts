@@ -126,6 +126,12 @@ button {
     padding: 0.5em;
 }
 
+/* Contacts Listing */
+tr::before {
+    content: attr(data-idx);
+    color: grey;
+}
+
 /* TABLES */
 table,
 th,
