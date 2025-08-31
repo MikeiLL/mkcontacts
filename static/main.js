@@ -19,7 +19,7 @@ export function render(state) {
         FORM({id: "newcontact"}, (
         TABLE(TBODY([
             state.contacts.map((c, idx) => TR({'data-idx': idx}, [
-                TH(c.fullname), TD(c.email), TD(c.phone), TD(BUTTON({'data-id': c.id, type: "button", class: "delete",},"x"))
+                TH(c.fullname), TD(c.email), TD(c.phone), TD(c.web), TD(BUTTON({'data-id': c.id, type: "button", class: "delete",},"x"))
             ])),
             TR({class: "contactinputrow"},[
                 TH([
@@ -28,6 +28,8 @@ export function render(state) {
                     LABEL([SPAN("email"), INPUT({type: "text", name: "email", autocomplete: "off", type: "email"})])
                 ), TD(
                     LABEL([SPAN("phone"), INPUT({type: "text", name: "phone", autocomplete: "off"})])
+                ), TD(
+                    LABEL([SPAN("web"), INPUT({type: "text", name: "web", autocomplete: "off"})])
                 ), TD(
                     BUTTON({id: "btnnew", type: "submit"}, "new")
                 )])

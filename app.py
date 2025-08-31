@@ -124,8 +124,8 @@ def newcontact():
     state = {}
     try:
         with _conn, _conn.cursor() as cur:
-            cur.execute("""INSERT INTO contacts (fullname, email, phone)
-            VALUES (%s, %s, %s) RETURNING id""", (contact['fullname'], contact['email'], contact['phone']))
+            cur.execute("""INSERT INTO contacts (fullname, email, phone, web)
+            VALUES (%s, %s, %s, %s) RETURNING id""", (contact['fullname'], contact['email'], contact['phone'], contact['web']))
             state['item_id'] = cur.fetchone()[0]
     except psycopg2.errors.CheckViolation as e:
         state["error"] = str(e)
@@ -135,7 +135,7 @@ def newcontact():
         update_sockets("mkcontacts", {"error": message, "cmd": "update"})
         return jsonify(state)
     with _conn, _conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-        cur.execute("SELECT id, fullname, email, phone FROM contacts ORDER BY fullname")
+        cur.execute("SELECT id, fullname, email, phone, web FROM contacts ORDER BY fullname")
         state['contacts'] = cur.fetchall()
     update_sockets("mkcontacts")
     return jsonify(state)
@@ -143,7 +143,7 @@ def newcontact():
 def get_state(group):
     state = {}
     with _conn, _conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-        cur.execute("SELECT id, fullname, email, phone FROM contacts ORDER BY fullname")
+        cur.execute("SELECT id, fullname, email, phone, web FROM contacts ORDER BY fullname")
         state['contacts'] = cur.fetchall()
     return state
 

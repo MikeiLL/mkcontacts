@@ -7,7 +7,8 @@ contacts
     fullname varchar
     email varchar unique
     phone varchar unique
-    CONSTRAINT at_least_one_contact_point CHECK ((NULLIF(email , '')) IS NOT NULL OR (NULLIF(phone, '') IS NOT NULL))
+    web varchar
+    CONSTRAINT at_least_one_contact_point CHECK ((NULLIF(email , '')) IS NOT NULL OR (NULLIF(phone, '') IS NOT NULL OR (NULLIF(web, '') IS NOT NULL)))
 --    address references city
 
 users
