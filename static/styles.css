@@ -3,13 +3,10 @@
 }
 
 :root {
-    --brand-primary: #FECB18;
-    --brand-primary-dark: #B28A01;
-    --brand-secondary: #D6150B;
-    --brand-secondary-dark: #611913;
-    --normal-submission-state: #055c28;
-    --nearing-submission-deadline: #2854c3;
-    --past-submission-deadline: #D6150B;
+    --brand-primary: #6710e1;
+    --brand-primary-dark: #440983;
+    --brand-secondary: #0baad6;
+    --brand-secondary-dark: #09728f;
     --black: #000000;
     --white: #FEFEFE;
 }
@@ -33,11 +30,15 @@
 header,
 footer {
     background-color: var(--brand-primary-dark);
-    color: black;
+    color: var(--white);
     padding: 15px;
     text-align: center;
     display: flex;
     justify-content: space-between;
+}
+
+footer {
+    margin-top: 1em;
 }
 
 #branding_nav {
@@ -48,12 +49,12 @@ footer {
 }
 
 #branding_nav a {
-    color: var(--brand-secondary-dark);
+    color: var(--white);
     text-decoration: none;
 }
 
 #branding_nav a:hover {
-    color: var(--black);
+    color: var(--brand-secondary-dark);
     text-decoration: none;
 }
 
@@ -62,13 +63,6 @@ nav ul {
     padding: 0;
     display: flex;
     gap: 1em;
-}
-
-.store header {
-    color: var(--white);
-    margin-bottom: 0.8em;
-    padding: 0 1em;
-    align-items: center;
 }
 
 section {
@@ -121,7 +115,7 @@ button {
 }
 
 #simpleconfirmdlg header {
-    background: none;
+    background: var(--brand-primary);
     border-bottom: 1px solid var(--brand-primary-dark);
     padding: 0.5em;
 }
@@ -137,4 +131,17 @@ table,
 th,
 td {
     border: 1px solid grey;
+    text-align: left;
+}
+
+.contactinputrow label,
+.contactinputrow label {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+}
+
+.contactinputrow label span {
+    font-size: smaller;
+    color: var(--brand-secondary-dark);
 }

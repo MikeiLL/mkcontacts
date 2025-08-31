@@ -13,9 +13,9 @@ export function render(state) {
         FORM({id: "newcontact"}, (
         TABLE(TBODY([
             state.contacts.map((c, idx) => TR({'data-idx': idx}, [
-                TH(idx + ". " + c.fullname), TD(c.email), TD(c.phone), TD(BUTTON({'data-id': c.id, type: "button", class: "delete",},"x"))
+                TH(c.fullname), TD(c.email), TD(c.phone), TD(BUTTON({'data-id': c.id, type: "button", class: "delete",},"x"))
             ])),
-            TR([
+            TR({class: "contactinputrow"},[
                 TH([
                     LABEL([SPAN("fullname"), INPUT({type: "text", name: "fullname", autocomplete: "off"})])
                 ]), TD(
