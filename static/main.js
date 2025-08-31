@@ -9,6 +9,12 @@ const {BUTTON, FORM, INPUT, LABEL, SPAN, TABLE, TBODY, TD, TH, TR} = lindt; //au
 import {simpleconfirm} from "./utils.js";
 
 export function render(state) {
+    if (state.error) {
+        replace_content("#mainflashdlg>header", "Oops!");
+        replace_content("#mainflashdlg>div", state.error);
+        DOM("#mainflashdlg").showModal();
+        return;
+    }
     replace_content("main", [
         FORM({id: "newcontact"}, (
         TABLE(TBODY([

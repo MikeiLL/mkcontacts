@@ -122,10 +122,18 @@ def newcontact():
     #the cheap way is to just use a submit button. Let's
     #start with that.
     state = {}
-    with _conn, _conn.cursor() as cur:
-        cur.execute("""INSERT INTO contacts (fullname, email, phone)
-        VALUES (%s, %s, %s) RETURNING id""", (contact['fullname'], contact['email'], contact['phone']))
-        state['item_id'] = cur.fetchone()[0]
+    try:
+        with _conn, _conn.cursor() as cur:
+            cur.execute("""INSERT INTO contacts (fullname, email, phone)
+            VALUES (%s, %s, %s) RETURNING id""", (contact['fullname'], contact['email'], contact['phone']))
+            state['item_id'] = cur.fetchone()[0]
+    except psycopg2.errors.CheckViolation as e:
+        state["error"] = str(e)
+        message = str(e)
+        if "at_least_one_contact_point" in message:
+            message = "Enter at least one contact method."
+        update_sockets("mkcontacts", {"error": message, "cmd": "update"})
+        return jsonify(state)
     with _conn, _conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute("SELECT id, fullname, email, phone FROM contacts ORDER BY fullname")
         state['contacts'] = cur.fetchall()
